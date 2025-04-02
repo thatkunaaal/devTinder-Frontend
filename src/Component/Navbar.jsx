@@ -1,12 +1,25 @@
 import React, { use } from "react";
 import SwitchTheme from "./SwitchTheme";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
+import axios from "axios"
+import { removeUser } from "./features/user/userSlice";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const handleLogout = () => {
-    console.log("Logouting...");
+  const handleLogout =async () => {
+    try {
+      await axios.post(BASE_URL+"/logout",{},
+        {withCredentials: true}
+      )
+      dispatch(removeUser());
+      navigate("\login");
+    } catch (error) {
+      console.log("Error: " + error);
+    }
   };
   return (
     <div className="navbar bg-base-300 shadow-sm  ">
@@ -38,7 +51,10 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <a>
+                <a>Settings</a>
+              </li>
+              <li>
+                <a onClick={handleLogout}>
                   Logout
                 </a>
               </li>

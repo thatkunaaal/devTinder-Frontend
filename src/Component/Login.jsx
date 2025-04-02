@@ -12,6 +12,10 @@ const Login = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const Navigate = useNavigate();
+  const [error,setError] = useState("");
+  const [margin,setMargin] = useState("");
+
+
   const handleLogin = async () => {
     try {
       const res = await axios.post(
@@ -26,6 +30,8 @@ const Login = () => {
       dispatch(addUser(res.data));
        Navigate("/")
     } catch (err) {
+      setError(err.response.data);
+      setMargin("mt-1");
       console.log(err);
     }
   };
@@ -100,9 +106,10 @@ const Login = () => {
             <div className="validator-hint hidden mt-2 ">
               Enter valid email address
             </div>
-            <div className="card-actions justify-center">
+            <div className="flex flex-col items-center card-actions justify-center">
+              <p className={`${margin} text-red-500`}>{error}</p>
               <button
-                className="btn btn-primary mt-4"
+                className="btn btn-primary items-center mt-4"
                 onClick={() => handleLogin()}
               >
                 Login
