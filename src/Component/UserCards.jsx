@@ -5,8 +5,9 @@ import status from "daisyui/components/status";
 import { useDispatch } from "react-redux";
 import { removeParticularFeed } from "./features/feed/feedSlice";
 
-const UserCards = ({ user }) => {
-  const { _id, firstName, lastName, age, gender, about, skills } = user;
+const UserCards = ({ user,profile }) => {
+  const { _id, firstName, lastName, age, gender, about, skills } =user;
+  const isProfileCard = profile;
   const dispatch = useDispatch();
 
   const handleSendRequests = async (status, _id) => {
@@ -36,10 +37,22 @@ const UserCards = ({ user }) => {
 
           <p>{about}</p>
           {skills && skills.length > 0 && <p>Skills: {...skills}</p>}
-          <div className="card-actions justify-center mt-4">
-            <button className="btn btn-primary mr-10" onClick={()=> handleSendRequests("ignored",_id)}>Ignore</button>
-            <button className="btn btn-secondary" onClick={()=> handleSendRequests("interested",_id)}>Interest</button>
-          </div>
+          {!isProfileCard && (
+            <div className="card-actions justify-center mt-4">
+              <button
+                className="btn btn-primary mr-10"
+                onClick={() => handleSendRequests("ignored", _id)}
+              >
+                Ignore
+              </button>
+              <button
+                className="btn btn-secondary"
+                onClick={() => handleSendRequests("interested", _id)}
+              >
+                Interest
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -6,16 +6,16 @@ import { BASE_URL } from "../utils/constants";
 import { addUser } from "./features/user/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 
-const EditProfile = ({ user }) => {
+const EditProfile = ({ user,profile }) => {
   const [error, setError] = useState("Invalid credentuials!");
-  
+
   //   const { firstName, lastName, age,photoUrl, gender, about, skills } = user;
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [age, setAge] = useState(user.age);
-  const [gender, setGender] = useState(user.gender);
-  const [about, setAbout] = useState(user.about);
+  const [firstName, setFirstName] = useState(user?.firstName);
+  const [lastName, setLastName] = useState(user?.lastName);
+  const [photoUrl, setPhotoUrl] = useState(user?.photoUrl);
+  const [age, setAge] = useState(user?.age || "");
+  const [gender, setGender] = useState(user?.gender || "");
+  const [about, setAbout] = useState(user?.about);
   const [updateStatus, setUpdateStatus] = useState(false);
   const dispatch = useDispatch();
 
@@ -161,6 +161,7 @@ const EditProfile = ({ user }) => {
         </div>
         <UserCards
           user={{ firstName, lastName, age, photoUrl, gender, about }}
+          profile = {profile} 
         />
       </div>
     </>

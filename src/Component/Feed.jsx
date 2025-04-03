@@ -24,6 +24,8 @@ const Feed = () => {
     getFeed();
   }, []);
 
+  if(!feedData) return;
+
   if(feedData.length <= 0)
     return (
       <div className="text-xl text-center mt-20">

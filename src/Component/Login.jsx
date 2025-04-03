@@ -5,16 +5,31 @@ import { addUser } from "./features/user/userSlice";
 import Profile from "./Profile";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("thatkunaal@gmail.com");
-  const [password, setPassword] = useState("Kishan@231");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isloginForm, setIsLoginForm] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
   const Navigate = useNavigate();
-  const [error,setError] = useState("");
-  const [margin,setMargin] = useState("");
+  const [error, setError] = useState("");
+  const [margin, setMargin] = useState("");
+  
 
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post(BASE_URL + "/signup", {firstName,lastName,emailId,password},{withCredentials: true});
+      dispatch(addUser(res.data.data));
+      Navigate("/profile");
+    } catch (err) {
+       toast.error(err.response.data.message, { position: "top-center" });
+      console.log(err.response.data.message);
+    }
+  }
 
   const handleLogin = async () => {
     try {
@@ -26,9 +41,9 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
+      // console.log(res.data);
       dispatch(addUser(res.data));
-       Navigate("/")
+      Navigate("/");
     } catch (err) {
       setError(err.response.data);
       setMargin("mt-1");
@@ -36,11 +51,72 @@ const Login = () => {
     }
   };
   {
-    return  (
-      <div className="flex justify-center mt-35">
+    return (
+      <>
+      <ToastContainer />
+      <div className="flex justify-center mt-10">
         <div className="card card-border bg-base-300 w-96  ">
           <div className="card-body">
-            <h2 className="card-title">Login</h2>
+            <h2 className="card-title">{isloginForm ? "Login" : "Sign Up"}</h2>
+            {!isloginForm && (
+              <>
+                {" "}
+                <label className="input my-4">
+                  <svg
+                    className="h-[1em] opacity-50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      strokeWidth="2.5"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </g>
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Firstname"
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
+                    required
+                  />
+                </label>
+                <label className="input">
+                  <svg
+                    className="h-[1em] opacity-50"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                  >
+                    <g
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      strokeWidth="2.5"
+                      fill="none"
+                      stroke="currentColor"
+                    >
+                      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                      <circle cx="12" cy="7" r="4"></circle>
+                    </g>
+                  </svg>
+                  <input
+                    type="text"
+                    value={lastName}
+                    required
+                    placeholder="Lastname"
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                    }}
+                  />
+                </label>{" "}
+              </>
+            )}
             <label className="input validator my-4">
               <svg
                 className="h-[1em] opacity-50"
@@ -95,7 +171,6 @@ const Login = () => {
                 value={password}
                 required
                 placeholder="Password"
-                minlength="8"
                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                 title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
                 onChange={(e) => {
@@ -110,14 +185,18 @@ const Login = () => {
               <p className={`${margin} text-red-500`}>{error}</p>
               <button
                 className="btn btn-primary items-center mt-4"
-                onClick={() => handleLogin()}
+                onClick={() => isloginForm? handleLogin() : handleSubmit()}
               >
-                Login
+                {isloginForm ? "Login" : "Sign Up"}
               </button>
+            </div>
+            <div className="w-full text-end text-primary mt-3">
+              <span className="underline cursor-pointer underline-offset-2 " onClick={()=> setIsLoginForm(!isloginForm)}>{isloginForm ? "New user? Singup here" : "Exisiting user, login here"}</span>
             </div>
           </div>
         </div>
       </div>
+      </>
     );
   }
 };

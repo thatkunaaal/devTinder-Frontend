@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Navbar from "./Navbar";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Footer from "./FOoter";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
@@ -15,6 +15,7 @@ const Body = () => {
   const fetchUser = async () => {
     if(userData) return true
     try {
+      
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
@@ -35,6 +36,7 @@ const Body = () => {
   useEffect(() => {
       fetchUser();
   }, []);
+
 
   return (
     <div className="flex flex-col min-h-screen">

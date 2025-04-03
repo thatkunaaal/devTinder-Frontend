@@ -6,7 +6,7 @@ const Profile = () => {
   const user = useSelector((state) => state.user.value);
   return (
     <div>
-      <EditProfile user={user} />
+      <EditProfile user={user} profile={true} />
     </div>
   );
 };
