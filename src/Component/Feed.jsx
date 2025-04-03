@@ -23,6 +23,14 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
+
+  if(feedData.length <= 0)
+    return (
+      <div className="text-xl text-center mt-20">
+      No new user found.
+    </div>
+    );
+
   return  feedData && ( <div >
     <UserCards user={feedData[0]}/>
   </div>)

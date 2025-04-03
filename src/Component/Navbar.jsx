@@ -2,20 +2,24 @@ import React, { use } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
-import axios from "axios"
+import axios from "axios";
 import { removeUser } from "./features/user/userSlice";
+import { removeFeed } from "./features/feed/feedSlice";
+import { removeConnections } from "./features/connections/connectionSlice";
+import { removeRequest } from "./features/requests/requestSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
-  const handleLogout =async () => {
+  const handleLogout = async () => {
     try {
-      await axios.post(BASE_URL+"/logout",{},
-        {withCredentials: true}
-      )
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
-      navigate("\login");
+      dispatch(removeFeed());
+      dispatch(removeConnections());
+      dispatch(removeRequest());
+      navigate("login");
     } catch (error) {
       console.log("Error: " + error);
     }
@@ -23,7 +27,9 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-300 shadow-sm  ">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">🧑‍💻 DevTinder</Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          🧑‍💻 DevTinder
+        </Link>
       </div>
       {/* <SwitchTheme /> */}
       {user && (
@@ -50,12 +56,13 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to= "/connections">Connections</Link>
+                <Link to="/connections">Connections</Link>
               </li>
               <li>
-                <a onClick={handleLogout}>
-                  Logout
-                </a>
+                <Link to="/requests">Requests</Link>
+              </li>
+              <li>
+                <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>

@@ -28,7 +28,7 @@ const Connections = () => {
     <div className="text-xl text-center mt-20">
       No connections found, go to feed and make new connections.
     </div>
-  );;
+  );
 
 
   return (
@@ -37,7 +37,7 @@ const Connections = () => {
         your connections:{" "}
       </div>
       {connectionData && connectionData.map((connection) => (
-        <div>
+        <div key={connection?._id}>
           <div className="card card-side bg-base-300 w-130 h-auto shadow-sm my-5">
             <figure >
             <div className="w-50"> 

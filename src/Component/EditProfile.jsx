@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const EditProfile = ({ user }) => {
   const [error, setError] = useState("Invalid credentuials!");
-  if (!user) return;
+  
   //   const { firstName, lastName, age,photoUrl, gender, about, skills } = user;
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
@@ -45,6 +45,8 @@ const EditProfile = ({ user }) => {
   useEffect(() => {
     setError("");
   }, []);
+  
+  if (!user) return;
 
   return (
     <>
