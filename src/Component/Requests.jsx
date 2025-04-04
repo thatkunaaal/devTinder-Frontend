@@ -37,7 +37,7 @@ const Requests = () => {
     getRequest();
   }, []);
 
-  if (!userRequests  )
+  if (!userRequests || userRequests.length === 0 )
     return <div className="text-xl text-center mt-20">No requests found.</div>;
 
   return (
