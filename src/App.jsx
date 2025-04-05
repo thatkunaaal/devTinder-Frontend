@@ -8,6 +8,7 @@ import store from "./Component/ReduxStore/store";
 import Feed from "./Component/Feed";
 import Connections from "./Component/Connections";
 import Requests from "./Component/Requests";
+import PremiumPlan from "./Component/PremiumPlan";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections/>} />
               <Route path="/requests" element={<Requests />} />
+              <Route path="/premium" element={<PremiumPlan />}/>
             </Route>
           </Routes>
         </BrowserRouter>
