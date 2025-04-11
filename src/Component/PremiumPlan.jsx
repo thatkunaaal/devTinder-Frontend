@@ -1,13 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { makePremiumUser } from "./features/premiumUser/premiumUserSlice";
 
 const PremiumPlan = () => {
-  const [isUserPremium, setIsUserPremium] = useState(false);
-  useEffect(() => {
-    verifyPayment();
-  }, []);
-
+    const isUserPremium = useSelector((state) => state.premiumUser.value)
+    const dispatch = useDispatch()
   const verifyPayment = async () => {
     try {
       const res = await axios.get(BASE_URL + "/premium/verify", {
@@ -16,7 +15,7 @@ const PremiumPlan = () => {
 
       if (res.data.isPremium) {
         console.log(res.data);
-        setIsUserPremium(true);
+        dispatch(makePremiumUser());
       }
     } catch (err) {
         console.log(err);
@@ -31,7 +30,6 @@ const PremiumPlan = () => {
         },
         { withCredentials: true }
       );
-      console.log(res);
 
       const keyId = res.data.keyId;
       const { amount, currency, notes, id } = res.data.order;

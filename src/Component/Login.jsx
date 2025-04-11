@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 import { ToastContainer, toast } from 'react-toastify';
+import { makePremiumUser } from "./features/premiumUser/premiumUserSlice";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
@@ -41,7 +42,8 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      // console.log(res.data);
+      if(res.data.isPremium)
+        dispatch(makePremiumUser())
       dispatch(addUser(res.data));
       Navigate("/");
     } catch (err) {
