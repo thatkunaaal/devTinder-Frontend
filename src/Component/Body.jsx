@@ -20,7 +20,7 @@ const Body = () => {
         withCredentials: true,
       });
       disaptch(addUser(res.data));
-      navigate("/");
+      // navigate("/");
     } catch (err) {
       if(err.status === 401)
       {
