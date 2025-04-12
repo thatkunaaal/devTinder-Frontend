@@ -22,7 +22,7 @@ const Navbar = () => {
   const verifyPremiumUser = async() => {
    try {
     const res = await axios.get(BASE_URL + "/premium/verify",{withCredentials : true});
-    console.log(res.data);
+    // console.log(res.data);
     if(res.data.isPremium)
       dispatch(makePremiumUser());
    } catch (err) {

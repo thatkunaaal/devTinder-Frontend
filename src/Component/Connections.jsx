@@ -3,6 +3,8 @@ import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "./features/connections/connectionSlice";
+import { Link } from "react-router-dom";
+
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -38,9 +40,9 @@ const Connections = () => {
       </div>
       {connectionData && connectionData.map((connection) => (
         <div key={connection?._id}>
-          <div className="card card-side bg-base-300 w-130 h-auto shadow-sm my-5">
+          <div className="card card-side bg-base-300 w-190 h-40 shadow-sm my-5">
             <figure >
-            <div className="w-50"> 
+            <div className="w-40"> 
               <img
                 src={connection.photoUrl}
                 className="w-full "
@@ -49,11 +51,15 @@ const Connections = () => {
               />
               </div>
             </figure>
-            <div className="card-body w-80 h-auto">
+            <div className="card-body w-60 h-auto">
               <h2 className="card-title">{connection.firstName + " " + connection.lastName}</h2>
               {connection.age && connection.gender && <p>{connection.age + ", " + connection.gender}</p>}
               <p >{connection.about}</p>
             </div>
+            <div className="btn btn-primary w-20 m-auto mr-5">
+            <Link  to={"/chat/"+connection?._id}><button >Chat </button></Link>
+            </div>
+            
           </div>
         </div>
       ))}

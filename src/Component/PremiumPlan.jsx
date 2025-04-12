@@ -14,7 +14,7 @@ const PremiumPlan = () => {
       });
 
       if (res.data.isPremium) {
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(makePremiumUser());
       }
     } catch (err) {
