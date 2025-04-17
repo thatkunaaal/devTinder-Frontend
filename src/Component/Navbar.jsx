@@ -106,8 +106,9 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  onClick={() => {
-                    handleLogout, (e) => e.currentTarget.blur();
+                  onClick={async (e) => {
+                    e.currentTarget.blur();
+                    await handleLogout();
                   }}
                 >
                   Logout
